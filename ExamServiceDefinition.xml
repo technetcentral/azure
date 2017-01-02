@@ -1,0 +1,23 @@
+<ServiceDefinition name="contosoapp"
+	<WebRole name="contosoweb" vmsize="small">
+		<Endpoints>	
+			<InputEndpoint name="Endpoint1" protocol="http" port="80" />
+		</Endpoints>
+	</WebRole>
+	<WorkerRole name="contosoimagepurge" vmsize="Small">
+		<Endpoints>
+			<InputEndpoint name ='Endpoint1" protocol="tcp" port='5001' />
+		</Endpoints>
+	</WorkerRole>
+	<NetworkTrafficRules>
+		<OnlyAllowTrafficTo>
+			<Destinations>
+				<RoleEndpoint endpointName='Endpoint1" roleName='contosoimagepurge'/>
+			</Destinations>
+			<WhenSource matches='AnyRule'>
+				<FromRole roleName='contosoweb'/>
+			</WhenSource>
+		</OnlyAllowTrafficTo>
+	</NetworkTrafficRules>
+</ServiceDefinition>
+	
